@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyectos Interactivos | CUN</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<header>
+    <img src="img/logo.png" alt="Logo CUN" />
+    <div class="header-links">
+        <a href="https://carnet.cun.edu.co/#/inicio" target="_blank"><i class="fa-solid fa-id-card"></i> Estudiantes</a>
+        <a href="https://carnet.cun.edu.co/#/inicio" target="_blank"><i class="fa-solid fa-people-group"></i> Colaboradores</a>
+        <a href="https://cun.edu.co/contacto/" target="_blank"><i class="fa-solid fa-envelope"></i> Contáctanos</a>
+    </div>
+</header>
+
+<div class="proyectos-container">
+    <button class="btn-open" onclick="abrirModal()">📂 Biblioteca de Proyectos</button>
+</div>
+
+<div id="modalProyectos" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="cerrarModal()">&times;</span>
+        <h2 style="text-align:center; margin-bottom:20px; letter-spacing: 1px;">CONTENIDO INTERACTIVO</h2>
+        <div id="listaProyectos"></div>
+    </div>
+</div>
+
+<div class="iframe-container">
+    <div id="loader-container">
+        <img src="img/logo.png" class="logo-carga" alt="Cargando...">
+        <div style="margin-top:20px; font-weight:bold; color:#00eaff; letter-spacing:2px; font-size: 14px;">PREPARANDO EXPERIENCIA</div>
+    </div>
+    <iframe id="visorFrame" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+</div>
+
+<footer>
+    <img src="img/logo.png" style="height: 60px; opacity: 0.8; margin-bottom: 20px;" alt="CUN" />
+    <p style="font-size: 12px; opacity: 0.4;">&copy; 2026 CORPORACIÓN UNIFICADA NACIONAL DE EDUCACIÓN SUPERIOR</p>
+</footer>
+
+<script>
+const proyectos = [
+    { nombre: "Fábrica de Contenido", url: "https://view.genially.com/6970da8da2ef09cea89fb3a8" },
+    { nombre: "Inducción Estudiantes", url: "https://view.genially.com/696ff0c37da5903e8807d18c" },
+    { nombre: "Interfax CUN-ULIM", url: "https://interfax-cun-ulim.vercel.app/" },
+    { nombre: "Saber PRO (DOJO)", url: "https://embed.figma.com/proto/qgRPheoib7P5QQa90gje5S/Dojo-TyT?page-id=0%3A1&node-id=1-265&viewport=1764%2C569%2C0.25&scaling=scale-down&content-scaling=fixed&embed-host=share" },
+    { nombre: "CPLAY", url: "https://embed.figma.com/proto/4hVazYFlKi7mxsRWXzKPXY/CPLAY?page-id=0%3A1&node-id=18-2&viewport=1470%2C198%2C0.25&scaling=scale-down&content-scaling=fixed&embed-host=share" },
+    { nombre: "Diseño Matches", url: "https://embed.figma.com/proto/QgzDTOcgVfHa03BNn99LWw/Dise%C3%B1o-Matches?node-id=2-24&scaling=contain&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2%3A24&embed-host=share" },
+    { nombre: "Guia Estudiantes", url: "https://view.genially.com/6972328f0508658631ae9ff3/interactive-content" },
+    { nombre: "Guía de Prácticas", url: "https://view.genially.com/697bd198faf51c6b1c542400/interactive-content" }
+];
+
+const lista = document.getElementById("listaProyectos");
+const visor = document.getElementById("visorFrame");
+const loaderCont = document.getElementById("loader-container");
+
+proyectos.forEach((p, i) => {
+    const item = document.createElement("div");
+    item.className = "proyecto-item";
+    item.innerHTML = `<i class="fa-solid fa-play" style="font-size: 12px; color: #00eaff;"></i> ${p.nombre}`;
+    item.onclick = () => cargarProyecto(i);
+    lista.appendChild(item);
+});
+
+function cargarProyecto(index) {
+    cerrarModal();
+    loaderCont.style.display = "flex";
+    visor.style.display = "none";
+    visor.style.opacity = "0";
+    visor.src = proyectos[index].url;
+
+    setTimeout(() => {
+        loaderCont.style.display = "none";
+        visor.style.display = "block";
+        setTimeout(() => { visor.style.opacity = "1"; }, 50);
+    }, 2000); 
+}
+
+function abrirModal() { document.getElementById("modalProyectos").style.display = "flex"; }
+function cerrarModal() { document.getElementById("modalProyectos").style.display = "none"; }
+
+window.onclick = (e) => { if (e.target.className === 'modal') cerrarModal(); };
+
+window.onload = () => cargarProyecto(0);
+</script>
+
+</body>
+</html>
